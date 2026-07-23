@@ -279,5 +279,6 @@ codegen run — unit tests, static analysis — still compiles.
 
 ## See also
 
+- [Storage Worker](/architecture/components/storage_worker/) — the async engine for chunked and non-blocking transfers
 - [Implementing Automations](/architecture/components/automations/) — for exposing operations to YAML
 - [Component architecture](/architecture/components/) — general component structure
