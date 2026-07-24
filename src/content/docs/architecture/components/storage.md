@@ -181,7 +181,10 @@ Never hold a driver-specific pointer. Go through the registry:
 ```cpp
 // Everything path-based, local or network — the usual entry point for a file consumer.
 global_storage_registry->for_each_path_based([](PathStorage *s, void *ctx) {
-  ESP_LOGD(TAG, "found %s at %s", s->get_info_name(), s->get_mount_path());
+  StorageInfo info{};
+  if (s->get_info(&info) == StorageError::OK) {
+    ESP_LOGD(TAG, "found %s at %s", info.name, s->get_mount_path());
+  }
 }, nullptr);
 ```
 
