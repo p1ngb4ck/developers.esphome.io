@@ -86,7 +86,6 @@ export default defineConfig({
                 "architecture/components/automations",
                 "architecture/components/socket_consumption_api",
                 "architecture/components/storage",
-                "architecture/components/storage_worker",
                 "architecture/components/advanced",
                 {
                   label: "Entity base classes",
