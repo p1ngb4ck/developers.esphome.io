@@ -12,6 +12,10 @@ not describe the YAML configuration; see the [user documentation](https://esphom
 The component itself contributes no functionality on its own. Configuring `storage:` without a driver creates an empty
 registry and nothing else.
 
+> [!IMPORTANT]
+> This interface is EXPERIMENTAL. The API may change at any time without following the normal breaking
+> changes policy, so a driver or consumer built against it may need updating until it is marked stable.
+
 ## Class hierarchy
 
 ```mermaid
@@ -70,7 +74,9 @@ A stateful network protocol that does have handles (SMB, for example) belongs un
 `NetworkStorage`. The split is about the shape of the API, not about where the bytes physically live.
 
 `MountableStorage` is a separate mix-in for media that come and go. A `PathStorage` returns it from `as_mountable()`
-(default `nullptr`), which lets a consumer offer mount/unmount without knowing the concrete driver type.
+(default `nullptr`), which lets a consumer offer mount/unmount without knowing the concrete driver type. Override
+`get_mount_caps()` to declare which of the two the driver actually supports (default both) — a medium that auto-mounts
+on insertion reports unmount only, and a consumer's `mount`/`unmount` is gated on the matching bit.
 
 ## Implementing a driver
 
@@ -272,6 +278,7 @@ Always report through `error_to_string()` so logs stay consistent across drivers
 | `USE_STORAGE` | Always, when the component is configured |
 | `USE_STORAGE_MAX_DEVICES` | Exact configured device count |
 | `USE_STORAGE_PATH_MAX` | Largest path bound any driver reported |
+| `USE_STORAGE_VFS_PATH_MAX` | Full VFS path bound: `path_max` plus the longest configured mount point |
 | `USE_STORAGE_MAX_RECURSION_DEPTH` | Tree-walk depth limit |
 | `USE_STORAGE_COPY_CHUNK_SIZE` | Streaming chunk size |
 | `USE_STORAGE_CHANGE_FEED` | Optional directory-change feed |
